@@ -21,8 +21,29 @@ Vue.createApp({
         !this.form.asunto ||
         !this.form.mensaje
       ) {
-        this.no_enviado = true;
+        $.toast({
+          heading: "¡Mensaje no enviado!",
+          text: "Complete los datos requeridos",
+          showHideTransition: "slide",
+          icon: "warning",
+          position: "top-right",
+      });
+
       } else {
+        var form = this.form;
+     
+        // $.ajax({
+        //   type: "POST",
+        //   url: "backend/contact.php",
+        //   data: form,
+        //   success: function (data) {
+            
+        //     if(data){
+        //       console.log(`${data}`);
+        //     }
+        //   },
+        // });
+
         emailjs.send("service_7izq809", "template_hdba90r", this.form).then(
           function (response) {
             console.log("SUCCESS!", response.status, response.text);
@@ -32,7 +53,15 @@ Vue.createApp({
           }
         );
 
-        this.enviado = true;
+        $.toast({
+          heading: "¡Mensaje enviado!",
+          text: "Estaremos en contacto con usted <i class='fa fa-smile-o'></i>",
+          showHideTransition: "slide",
+          icon: "success",
+          position: "top-right",
+      });
+
+        // this.enviado = true;
         this.form = {};
       }
     },
